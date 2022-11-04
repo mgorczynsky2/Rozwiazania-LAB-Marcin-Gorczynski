@@ -20,5 +20,12 @@ DELETE FROM postac ORDER BY wiek DESC limit 2;
 
 3.1
 UPDATE postac SET statel='statek1' WHERE nazwa LIKE '%a%';
+3.2
+ UPDATE statek SET max_ladownosc=max_ladownosc - (max_ladownosc * 0.3)
+ WHERE data_wodowanie < '2000-01-01' AND data_wodowanie >= '1900-01-01';
+3.3
+SELECT * from postac WHERE wiek <= 1000;
+
+
 
 
