@@ -1,0 +1,91 @@
+1.
+CREATE TABLE `postac` (
+  `id_postaci` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `nazwa` varchar(40) NOT NULL,
+  `rodzaj` enum('wiking','ptak','kobieta') DEFAULT NULL,
+  `data_ur` date DEFAULT NULL,
+  `wiek` int unsigned DEFAULT NULL,
+1.1
+    INSERT INTO postac (nazwa,rodzaj,data_ur,wiek) VALUES ('Bjorn','wiking','1930-10-23',23);
+    INSERT INTO postac (nazwa,rodzaj,data_ur,wiek) VALUES ('Drozd','ptak','1942-05-23,50);
+    INSERT INTO postac (nazwa,rodzaj,data_ur,wiek) VALUES ('Tesciowa','kobieta','1960-05-23,60);
+    
+1.2
+UPDATE postac SET wiek=88 WHERE nazwa='Tesciowa';
+
+2. CREATE TABLE `walizka` (
+  `id_walizki` int NOT NULL AUTO_INCREMENT,
+  `pojemnosc` int unsigned DEFAULT NULL,
+  `kolor` enum('rozowy','czerwony','teczowy','zolty')
+  `id_wlasciciela` int DEFAULT NULL,
+  PRIMARY KEY (`id_walizki`),
+  KEY `id_wlasciciela` (`id_wlasciciela`),
+  CONSTRAINT `walizka_ibfk_1` FOREIGN KEY (`id_wlasciciela`) REFERENCES `postac` (`id_postaci`) ON DELETE CASCADE
+      2.1
+      ALTER TABLE walizka MODIFY COLUMN kolor enum('rozowy','czerwony','teczowy','zolty') default 'rozowy';
+      2.2
+      INSERT INTO walizka(pojemnosc,kolor,id_wlasciciela) VALUES (200,'teczowy',1);
+      INSERT INTO walizka(pojemnosc,kolor,id_wlasciciela) VALUES (500,'czerwony',3);
+ 3.
+ CREATE TABLE `izba` (
+  `adres_budynku` varchar(40) NOT NULL,
+  `nazwa_izby` varchar(40) NOT NULL,
+  `metraz` int unsigned DEFAULT NULL,
+  `kolor` varchar(50) DEFAULT 'czarny',
+  `wlasciciel` int DEFAULT NULL,
+  PRIMARY KEY (`adres_budynku`,`nazwa_izby`),
+  KEY `wlasciciel` (`wlasciciel`),
+  CONSTRAINT `izba_ibfk_1` FOREIGN KEY (`wlasciciel`) REFERENCES `postac` (`id_postaci`) ON DELETE SET NULL
+    3.1
+    ALTER TABLE izba ADD kolor_izby VARCHAR(50) DEFAULT 'czarny' AFTER metraz;
+    3.2
+    INSERT INTO izba VALUES ('Wiejska 13','spizarnia',1000,'rozowy',1);
+4. CREATE TABLE `przetwory` (
+  `id_przetwory` int NOT NULL AUTO_INCREMENT,
+  `rok_produkcji` int unsigned DEFAULT '1654',
+  `id_wykonawcy` int DEFAULT NULL,
+  `zawartosc` varchar(40) DEFAULT NULL,
+  `dodatek` varchar(40) DEFAULT 'papryczka chili',
+  `id_konsumenta` int DEFAULT NULL,
+  PRIMARY KEY (`id_przetwory`),
+  KEY `id_wykonawcy` (`id_wykonawcy`),
+  KEY `id_konsumenta` (`id_konsumenta`),
+  CONSTRAINT `przetwory_ibfk_1` FOREIGN KEY (`id_wykonawcy`) REFERENCES `postac` (`id_postaci`),
+  CONSTRAINT `przetwory_ibfk_2` FOREIGN KEY (`id_konsumenta`) REFERENCES `postac` (`id_postaci`)
+  4.1
+  INSERT INTO przetwory(id_przetworu, id_wykonawcy, zawartosc, id_konsumenta) VALUES (1,1,'bigos',3);
+ 5.
+  INSERT INTO postac(nazwa,rodzaj,data_ur,wiek) VALUES ('wiking1','wiking','1989-11-11',30);
+INSERT INTO postac(nazwa,rodzaj,data_ur,wiek) VALUES ('wiking2','wiking','1989-09-10',20);
+INSERT INTO postac(nazwa,rodzaj,data_ur,wiek) VALUES ('wiking3','wiking','1960-09-10',50);
+INSERT INTO postac(nazwa,rodzaj,data_ur,wiek) VALUES ('wiking4','wiking','1970-04-20',34);
+INSERT INTO postac(nazwa,rodzaj,data_ur,wiek) VALUES ('wiking5','wiking','1999-01-29',19);
+  5.1 CREATE TABLE `statek` (
+  `nazwa_statku` varchar(50) NOT NULL,
+  `rodzaj_statku` enum('galera','zaglowka','motorowka') DEFAULT NULL,
+  `data_wodowanie` date DEFAULT NULL,
+  `max_ladownosc` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`nazwa_statku`)
+    5.2
+    INSERT INTO statek VALUES('statek1', 'galera','1930-10-11',400);
+INSERT INTO statek VALUES('statek2', 'zaglowka','1960-11-20',2000);
+    5.3
+ALTER TABLE postac ADD funkcja VARCHAR(70);
+    5.4
+UPDATE postac SET funkcja = 'kapitan' WHERE nazwa = 'Bjorn';
+    5.5
+    ALTER TABLE postac ADD nazwa_statku VARCHAR(70);
+ALTER TABLE postac ADD FOREIGN KEY(nazwa_statku) REFERENCES statek(nazwa_statku);
+    5.6
+    UPDATE postac SET funkcja = 'zaloga', nazwa_statku='czarna drozda' WHERE rodzaj='wiking';
+    5.7
+    DELETE FROM izba WHERE nazwa_izby = 'spizarnia';
+DROP TABLE izba;
+
+
+    
+
+
+
+
+ 
