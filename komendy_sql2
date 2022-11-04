@@ -1,0 +1,24 @@
+1.1
+DELETE FROM postac ORDER BY wiek DESC limit 2;
+  1.2
+  ALTER TABLE postac drop CONSTrAINT postac_ibfk_1;
+  ALTER table przetwory DROP constraint przetwory_ibfk_2;
+  ALTER table przetwory DROP constraint przetwory_ibfk_1;
+  ALTER table walizka DROP constraint walizka_ibfk_1;
+  ALTER TABLE izba drop constraint izba_ibfk_1;
+      ALTER TABLE postac drop id_postaci;
+
+
+2.1
+  ALTER table postac ADD pesel char(11);
+  ALTER table postac ADD primary key(pesel).
+  2.2
+  ALTER table postac MODIFY COLUMN enum('wiking','ptak','kobieta','syrena');
+  2.3
+  INSERT INTO postac(nazwa,rodzaj,data_ur,wiek,pesel) 
+  VALUES('Gertruda Nieszczera','syrena','1966-02-04',30,'28572857298');
+
+3.1
+UPDATE postac SET statel='statek1' WHERE nazwa LIKE '%a%';
+
+
