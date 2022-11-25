@@ -34,6 +34,7 @@ SELECT * from postac WHERE wiek <= 1000;
 
 #zadanie 4
 SELECT * from postac;
+ALTER table postac MODIFY COLUMN rodzaj enum('wiking','ptak','kobieta','syrena','waz');
 INSERT into postac(nazwa,data_ur,wiek,pesel) VALUES ('LOKO','1994-04-15','20','72847265789');
 #4.2
 CREATE TABLE `Marynarz` (
@@ -45,9 +46,13 @@ CREATE TABLE `Marynarz` (
   `statek` varchar(50) DEFAULT NULL,
   `pesel` char(11) NOT NULL,
   PRIMARY KEY (`pesel`));
+  #2
+  CREATE TABLE marynarz LIKE postac;
+  #3
+  CREATE table Marynarz SELECT * from postac;
 #4.2
     INSERT into Marynarz(nazwa,rodzaj,data_ur,wiek,funkcja,statek,pesel) 
-    SELECT nazwa,rodzaj,data_ur,wiek,funkcja,statek,pesel FROM postac WHERE statek IS not null;
+    SELECT * FROM postac WHERE statek IS not null;
 #4.3
 ALTER TABLE Marynarz ADD foreign key(pesel) REFERENCES postac(pesel);
 
@@ -64,8 +69,9 @@ DROP table statek;
 #5.5
 CREATE table zwierz (zwierz_id char(11) NOT NULL ,nazwa  varchar(40), wiek INT, PRIMARY KEY(zwierz_id));
 #5.6
-INSERT into zwierz(zwierz_id,nazwa,wiek) SELECT pesel,nazwa,wiek FROM postac WHERE rodzaj='ptak';
+INSERT into zwierz(zwierz_id,nazwa,wiek) SELECT pesel,nazwa,wiek FROM postac WHERE rodzaj in ('waz','ptak');
 SELECT * from zwierz;
+
 
 
 
